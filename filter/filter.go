@@ -41,3 +41,30 @@ func (g GrayScale) Process(srcPath, dstPath string) error {
 	opts := jpeg.Options{Quality: 90}
 	return jpeg.Encode(dstFile, img, &opts)
 }
+
+//Blur is the type for gray scale filter
+type Blur struct{}
+
+// Process process picture effects
+func (b Blur) Process(srcPath, dstPath string) error {
+	src, err := imaging.Open(srcPath)
+	if err != nil {
+		return err
+	}
+	// Crop the original image to 300x300px size using the center anchor.
+	src = imaging.CropAnchor(src, 300, 300, imaging.Center)
+
+	// Resize the cropped image to width = 200px preserving the aspect ratio.
+	src = imaging.Resize(src, 200, 0, imaging.Lanczos)
+
+	img := imaging.Blur(src, 3.5)
+
+	dstFile, err := os.Create(dstPath)
+	if err != nil {
+		return err
+	}
+	defer dstFile.Close()
+
+	opts := jpeg.Options{Quality: 90}
+	return jpeg.Encode(dstFile, img, &opts)
+}
