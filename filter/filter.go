@@ -21,11 +21,6 @@ func (g GrayScale) Process(srcPath, dstPath string) error {
 	if err != nil {
 		return err
 	}
-	// Crop the original image to 300x300px size using the center anchor.
-	src = imaging.CropAnchor(src, 300, 300, imaging.Center)
-
-	// Resize the cropped image to width = 200px preserving the aspect ratio.
-	src = imaging.Resize(src, 200, 0, imaging.Lanczos)
 
 	// Create a grayscale version of the image with higher contrast and sharpness.
 	img := imaging.Grayscale(src)
@@ -51,11 +46,6 @@ func (b Blur) Process(srcPath, dstPath string) error {
 	if err != nil {
 		return err
 	}
-	// Crop the original image to 300x300px size using the center anchor.
-	src = imaging.CropAnchor(src, 300, 300, imaging.Center)
-
-	// Resize the cropped image to width = 200px preserving the aspect ratio.
-	src = imaging.Resize(src, 200, 0, imaging.Lanczos)
 
 	img := imaging.Blur(src, 3.5)
 
